@@ -1,0 +1,22 @@
+name: CI Check
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-ci-check:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3.8.1
+        with:
+          node-version: 18
+      - name: Run continous integration
+        run: |
+          npm install -D
+          npm run check
+          npm run test
